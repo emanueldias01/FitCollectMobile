@@ -26,7 +26,9 @@ import dev.emanueldias.fitcollectmobile.ui.theme.AndroidWhite
 import dev.emanueldias.fitcollectmobile.ui.theme.FitCollectMobileTheme
 
 @Composable
-fun InitialScreen() {
+fun InitialScreen(
+    onButtonClickSearchDevices : () -> Unit
+) {
 
     Scaffold() { innerPadding ->
         Column(
@@ -71,7 +73,7 @@ fun InitialScreen() {
 
 
             ElevatedButton(
-                onClick = {},
+                onClick = onButtonClickSearchDevices,
                 colors = ButtonColors(
                     containerColor = AndroidGreen,
                     contentColor = AndroidWhite,
@@ -91,6 +93,8 @@ fun InitialScreen() {
 @Composable
 private fun InitialScreenPreview() {
     FitCollectMobileTheme() {
-        InitialScreen()
+        InitialScreen(
+            onButtonClickSearchDevices = {}
+        )
     }
 }

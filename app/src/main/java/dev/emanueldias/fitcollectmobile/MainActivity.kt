@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dev.emanueldias.fitcollectmobile.ui.features.initial.InitialScreen
+import dev.emanueldias.fitcollectmobile.ui.navigation.AppNavigation
 import dev.emanueldias.fitcollectmobile.ui.theme.FitCollectMobileTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,7 +20,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            InitialScreen()
+            AppNavigation()
         }
     }
 }
