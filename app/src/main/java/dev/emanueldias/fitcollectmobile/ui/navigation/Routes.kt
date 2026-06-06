@@ -10,4 +10,6 @@ sealed interface Screen {
     @Serializable
     data object Devices : Screen
 
+    @Serializable
+    data object Collects: Screen
 }

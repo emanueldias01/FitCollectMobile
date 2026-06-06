@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import dev.emanueldias.fitcollectmobile.ui.features.collects.CollectsScreen
 import dev.emanueldias.fitcollectmobile.ui.features.device.DeviceScreen
 import dev.emanueldias.fitcollectmobile.ui.features.initial.InitialScreen
 
@@ -25,7 +26,17 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         }
 
         composable<Screen.Devices> {
-            DeviceScreen()
+            DeviceScreen(
+                onClickGoToCollects = {
+                    navController.navigate(Screen.Collects)
+                }
+            )
         }
+
+        composable<Screen.Collects> {
+            CollectsScreen()
+        }
+
+
     }
 }

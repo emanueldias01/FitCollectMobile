@@ -2,7 +2,6 @@ package dev.emanueldias.fitcollectmobile.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,10 +19,11 @@ import dev.emanueldias.fitcollectmobile.ui.theme.FitCollectMobileTheme
 @Composable
 fun DeviceComponent(
     name: String,
+    modifier: Modifier = Modifier
 ) {
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
 
     ) {
         Row(
