@@ -20,7 +20,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            AppNavigation()
+            MobileApp()
         }
+    }
+}
+
+@Composable
+fun MobileApp(modifier: Modifier = Modifier) {
+    FitCollectMobileTheme() {
+        AppNavigation()
     }
 }

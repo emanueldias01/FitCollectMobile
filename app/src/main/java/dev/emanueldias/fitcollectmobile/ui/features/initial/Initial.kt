@@ -17,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.emanueldias.fitcollectmobile.R
 import dev.emanueldias.fitcollectmobile.ui.theme.AndroidGreen
 import dev.emanueldias.fitcollectmobile.ui.theme.AndroidGreenDark
@@ -37,23 +39,22 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun InitialScreen(
-    onButtonClickSearchDevices : () -> Unit
+    viewModel: InitialViewModel = viewModel(),
+    onButtonClickSearchDevices : () -> Unit,
 ) {
 
-    var logoVisibility by remember{ mutableStateOf(false) }
-    var nameAppVisibility by remember { mutableStateOf(false) }
-    var textVisibility by remember { mutableStateOf(false) }
-    var buttonVisibility by remember { mutableStateOf(false) }
+    val uiState = viewModel.uiState.collectAsState().value
 
     LaunchedEffect(Unit) {
         delay(500)
-        logoVisibility = true
+        viewModel.activeLogoVisibility()
         delay(500)
-        nameAppVisibility = true
+        viewModel.activeNameAppVisibility()
         delay(500)
-        textVisibility = true
+        viewModel.activeTextVisibility()
         delay(500)
-        buttonVisibility = true
+        viewModel.activeButtonVisibility()
+
     }
 
     Scaffold() { innerPadding ->
@@ -70,7 +71,7 @@ fun InitialScreen(
                 verticalArrangement = Arrangement.Center
             ) {
                 AnimatedVisibility(
-                    visible = logoVisibility,
+                    visible = uiState.logoVisibility,
                     enter = fadeIn(animationSpec = tween(600)) + slideInVertically(initialOffsetY = { it / 2 })
                 ) {
                     Image(
@@ -87,7 +88,7 @@ fun InitialScreen(
 
 
                 AnimatedVisibility(
-                    visible = nameAppVisibility,
+                    visible = uiState.nameAppVisibility,
                     enter = fadeIn(animationSpec = tween(600)) + slideInVertically(initialOffsetY = { it / 2 })
                 ) {
                     Text(
@@ -101,7 +102,7 @@ fun InitialScreen(
             }
 
             AnimatedVisibility(
-                visible = textVisibility,
+                visible = uiState.textVisibility,
                 enter = fadeIn(animationSpec = tween(600)) + slideInVertically(initialOffsetY = { it / 2 })
             ) {
                 Text(
@@ -118,7 +119,7 @@ fun InitialScreen(
 
 
             AnimatedVisibility(
-                visible = buttonVisibility,
+                visible = uiState.buttonVisibility,
                 enter = fadeIn(animationSpec = tween(600)) + slideInVertically(initialOffsetY = { it / 2 })
             ) {
                 ElevatedButton(
