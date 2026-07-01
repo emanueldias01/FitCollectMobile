@@ -48,24 +48,6 @@ fun DeviceScreen(
 
     val uiState = viewModel.uiState.collectAsState().value
 
-    if(uiState.isConnecting) {
-        Dialog(
-           onDismissRequest = {}
-        ) {
-            Card() {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text("Conectando...")
-                    Loading()
-                }
-            }
-        }
-    }
-
     if (uiState.hasError) {
         Dialog(
             onDismissRequest = {}

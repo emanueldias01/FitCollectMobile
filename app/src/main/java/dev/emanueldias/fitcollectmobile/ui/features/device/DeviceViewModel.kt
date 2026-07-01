@@ -74,41 +74,13 @@ class DeviceViewModel(application: Application): AndroidViewModel(application), 
             }
         }
     }
-
     fun sendRequestToConnect(deviceId: String) {
         viewModelScope.launch {
-            _uiState.update { it.copy(isConnecting = true) }
-            try {
-                val mobileName = Build.MODEL
-
-                messageClient.sendMessage(
-                    deviceId,
-                    "/connection_request",
-                    mobileName.toByteArray()
-                ).await()
-
-            } catch (ex: Exception) {
-                _uiState.update { it.copy(
-                    hasError = true,
-                    messageError = ex.message,
-                    isConnecting = false
-                )}
-            }
+            _uiState.update { it.copy(connectedDeviceId = deviceId) }
         }
     }
 
-    override fun onMessageReceived(event: MessageEvent) {
-        if (event.path == "/connection_accept") {
-            val resposta = String(event.data)
-
-            if (resposta == "ACK") {
-                _uiState.update {
-                    it.copy(
-                        isConnecting = false,
-                        connectedDeviceId = event.sourceNodeId
-                    )
-                }
-            }
-        }
+    override fun onMessageReceived(p0: MessageEvent) {
+        TODO("Not yet implemented")
     }
 }
