@@ -5,135 +5,139 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.emanueldias.fitcollectmobile.R
-import dev.emanueldias.fitcollectmobile.ui.theme.AndroidGreen
-import dev.emanueldias.fitcollectmobile.ui.theme.AndroidGreenDark
-import dev.emanueldias.fitcollectmobile.ui.theme.AndroidWhite
 import dev.emanueldias.fitcollectmobile.ui.theme.FitCollectMobileTheme
 import kotlinx.coroutines.delay
 
 @Composable
 fun InitialScreen(
     viewModel: InitialViewModel = viewModel(),
-    onButtonClickSearchDevices : () -> Unit,
+    onButtonClickSearchDevices: () -> Unit,
 ) {
-
     val uiState = viewModel.uiState.collectAsState().value
 
     LaunchedEffect(Unit) {
-        delay(500)
+        delay(300)
         viewModel.activeLogoVisibility()
-        delay(500)
+        delay(250)
         viewModel.activeNameAppVisibility()
-        delay(500)
+        delay(250)
         viewModel.activeTextVisibility()
-        delay(500)
+        delay(250)
         viewModel.activeButtonVisibility()
-
     }
 
-    Scaffold() { innerPadding ->
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.background
+    ) { innerPadding ->
         Column(
-            modifier = Modifier.padding(innerPadding)
-                .fillMaxSize(),
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
+            Spacer(modifier = Modifier.height(32.dp))
 
+            // Center Logo & Title Info
             Column(
-                modifier = Modifier.padding(50.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.weight(1f)
             ) {
                 AnimatedVisibility(
                     visible = uiState.logoVisibility,
-                    enter = fadeIn(animationSpec = tween(600)) + slideInVertically(initialOffsetY = { it / 2 })
+                    enter = fadeIn(animationSpec = tween(500)) + slideInVertically(initialOffsetY = { it / 3 })
                 ) {
-                    Image(
-                        painter = painterResource(R.drawable.outline_fitness_center_24),
-                        contentDescription = "logo",
-                        modifier = Modifier.size(100.dp)
-                    )
-
-                    Spacer(
-                        modifier = Modifier.size(20.dp)
-                    )
+                    Surface(
+                        modifier = Modifier.size(112.dp),
+                        shape = RoundedCornerShape(28.dp),
+                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Image(
+                                painter = painterResource(R.drawable.outline_fitness_center_24),
+                                contentDescription = "logo",
+                                modifier = Modifier.size(56.dp),
+                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
+                            )
+                        }
+                    }
                 }
 
-
+                Spacer(modifier = Modifier.height(24.dp))
 
                 AnimatedVisibility(
                     visible = uiState.nameAppVisibility,
-                    enter = fadeIn(animationSpec = tween(600)) + slideInVertically(initialOffsetY = { it / 2 })
+                    enter = fadeIn(animationSpec = tween(500)) + slideInVertically(initialOffsetY = { it / 3 })
                 ) {
                     Text(
                         text = "FitCollect",
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = AndroidGreenDark,
-                        modifier = Modifier.padding(30.dp)
+                        fontSize = 36.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        letterSpacing = (-1).sp
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                AnimatedVisibility(
+                    visible = uiState.textVisibility,
+                    enter = fadeIn(animationSpec = tween(500)) + slideInVertically(initialOffsetY = { it / 3 })
+                ) {
+                    Text(
+                        text = "Sincronize e gerencie suas coletas físicas diretamente do seu smartwatch WearOS.",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(horizontal = 24.dp),
+                        lineHeight = 24.sp
                     )
                 }
             }
 
-            AnimatedVisibility(
-                visible = uiState.textVisibility,
-                enter = fadeIn(animationSpec = tween(600)) + slideInVertically(initialOffsetY = { it / 2 })
-            ) {
-                Text(
-                    "Colete seus dados através de um WearOS",
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.W500,
-                    color = AndroidGreenDark
-                )
-
-                Spacer(modifier = Modifier.size(100.dp))
-            }
-
-
-
-
+            // Bottom CTA Button
             AnimatedVisibility(
                 visible = uiState.buttonVisibility,
-                enter = fadeIn(animationSpec = tween(600)) + slideInVertically(initialOffsetY = { it / 2 })
+                enter = fadeIn(animationSpec = tween(500)) + slideInVertically(initialOffsetY = { it / 3 }),
+                modifier = Modifier.padding(bottom = 48.dp)
             ) {
-                ElevatedButton(
+                Button(
                     onClick = onButtonClickSearchDevices,
-                    colors = ButtonColors(
-                        containerColor = AndroidGreen,
-                        contentColor = AndroidWhite,
-                        disabledContainerColor = AndroidGreenDark,
-                        disabledContentColor = AndroidWhite
-                    )
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    shape = RoundedCornerShape(28.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    ),
+                    elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp)
                 ) {
-
-                    Text("Buscar dispositivo")
-
+                    Text(
+                        text = "Buscar Dispositivo",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         }
@@ -143,7 +147,7 @@ fun InitialScreen(
 @Preview
 @Composable
 private fun InitialScreenPreview() {
-    FitCollectMobileTheme() {
+    FitCollectMobileTheme {
         InitialScreen(
             onButtonClickSearchDevices = {}
         )
