@@ -1,0 +1,20 @@
+package dev.emanueldias.fitcollectmobile.data.model
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class WorkoutData(
+    val sport: String,
+    val startTime: Long,
+    val endTime: Long,
+    val durationSeconds: Long,
+    val distanceMeters: Double = 0.0,
+    val calories: Double = 0.0,
+    val heartRateMeasurements: List<HeartRateMeasurement> = emptyList()
+)
+
+@Serializable
+data class HeartRateMeasurement(
+    val timestamp: Long,
+    val bpm: Double
+)

@@ -6,8 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.emanueldias.fitcollectmobile.ui.features.collects.CollectsScreen
+import dev.emanueldias.fitcollectmobile.ui.features.collects.WorkoutDetailScreen
 import dev.emanueldias.fitcollectmobile.ui.features.device.DeviceScreen
 import dev.emanueldias.fitcollectmobile.ui.features.initial.InitialScreen
+import androidx.navigation.toRoute
 
 @Composable
 fun AppNavigation(modifier: Modifier = Modifier) {
@@ -34,9 +36,21 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         }
 
         composable<Screen.Collects> {
-            CollectsScreen()
+            CollectsScreen(
+                onWorkoutClick = { startTime ->
+                    navController.navigate(Screen.WorkoutDetail(startTime))
+                }
+            )
         }
 
-
+        composable<Screen.WorkoutDetail> { backStackEntry ->
+            val args = backStackEntry.toRoute<Screen.WorkoutDetail>()
+            WorkoutDetailScreen(
+                startTime = args.startTime,
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
     }
 }

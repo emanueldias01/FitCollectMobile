@@ -12,4 +12,7 @@ sealed interface Screen {
 
     @Serializable
     data object Collects: Screen
+
+    @Serializable
+    data class WorkoutDetail(val startTime: Long) : Screen
 }
